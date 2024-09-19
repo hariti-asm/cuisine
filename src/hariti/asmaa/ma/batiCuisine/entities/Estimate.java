@@ -5,24 +5,14 @@ import hariti.asmaa.ma.batiCuisine.enums.EstimateStatus;
 import java.time.LocalDate;
 
 public class Estimate {
-    private double estimatedAmount;
     private LocalDate issueDate;
     private LocalDate validityDate;
     private EstimateStatus status;
 
-    public Estimate(double estimatedAmount, LocalDate issueDate, LocalDate validityDate, EstimateStatus status) {
-        this.estimatedAmount = estimatedAmount;
+    public Estimate( LocalDate issueDate, LocalDate validityDate, EstimateStatus status) {
         this.issueDate = issueDate;
         this.validityDate = validityDate;
         this.status = status;
-    }
-
-    public double getEstimatedAmount() {
-        return estimatedAmount;
-    }
-
-    public void setEstimatedAmount(double estimatedAmount) {
-        this.estimatedAmount = estimatedAmount;
     }
 
     public LocalDate getIssueDate() {
@@ -52,7 +42,6 @@ public class Estimate {
     @Override
     public String toString() {
         return "Estimate{" +
-                "estimatedAmount=" + estimatedAmount +
                 ", issueDate=" + issueDate +
                 ", validityDate=" + validityDate +
                 ", status=" + status +

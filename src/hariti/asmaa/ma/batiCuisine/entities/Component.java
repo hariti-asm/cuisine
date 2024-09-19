@@ -6,7 +6,6 @@ public class Component {
     private String name;
     private double vatRate;
     private ComponentType componentType;
-
     public Component(String name, double vatRate, ComponentType componentType) {
         this.name = name;
         this.vatRate = vatRate;
