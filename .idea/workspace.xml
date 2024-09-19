@@ -5,13 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ba4c669b-8f16-468a-a607-2f25c05ae789" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BatiCuisine.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/Main.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/controllers/helpers/ClientMenu.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/controllers/helpers/ProjectMenu.java" afterDir="false" />
@@ -87,7 +80,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1726597608242</updated>
-      <workItem from="1726597609353" duration="11964000" />
+      <workItem from="1726597609353" duration="12639000" />
     </task>
     <servers />
   </component>

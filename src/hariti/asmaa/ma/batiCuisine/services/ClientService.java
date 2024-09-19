@@ -4,6 +4,7 @@ import hariti.asmaa.ma.batiCuisine.entities.Client;
 import hariti.asmaa.ma.batiCuisine.repositories.ClientRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public class ClientService {
     private final ClientRepository clientRepository;
@@ -19,5 +20,9 @@ public class ClientService {
     }
     public Optional<Client> getClientByName(String name) {
         return clientRepository.getClientByName(name);
+    }
+    public boolean deleteClient(UUID clientId) {
+        return clientRepository.deleteClient(clientId);
+
     }
 }
