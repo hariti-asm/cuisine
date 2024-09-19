@@ -2,73 +2,40 @@ package hariti.asmaa.ma.batiCuisine.entities;
 
 import hariti.asmaa.ma.batiCuisine.enums.ProjectState;
 
-import java.util.UUID;
+import java.util.List;
 
 public class Project {
-    private String nameProject;
-    private double margin;
-    private double totalCost;
+    private String name;
     private double surfaceArea;
-    private ProjectState state;
-public Project() {}
-    public Project(String nameProject, double margin, double totalCost, double surfaceArea, ProjectState state) {
-        this.nameProject = nameProject;
-        this.margin = margin;
-        this.totalCost = totalCost;
+    private ProjectState projectState;
+    private List<Materiel> materials;
+    private List<Labor> labor;
+    private Estimate estimate;
+
+    public Project(String name, double surfaceArea, ProjectState projectState) {
+        this.name = name;
         this.surfaceArea = surfaceArea;
-        this.state = state;
+        this.projectState = projectState;
     }
 
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
+    public double getSurfaceArea() { return surfaceArea; }
+    public void setSurfaceArea(double surfaceArea) { this.surfaceArea = surfaceArea; }
 
-    public String getNameProject() {
-        return nameProject;
-    }
+    public ProjectState getProjectState() { return projectState; }
+    public void setProjectState(ProjectState projectState) { this.projectState = projectState; }
 
-    public void setNameProject(String nameProject) {
-        this.nameProject = nameProject;
-    }
+    public List<Materiel> getMaterials() { return materials; }
+    public void setMaterials(List<Materiel> materials) { this.materials = materials; }
 
-    public double getMargin() {
-        return margin;
-    }
+    public List<Labor> getLabor() { return labor; }
+    public void setLabor(List<Labor> labor) { this.labor = labor; }
 
-    public void setMargin(double margin) {
-        this.margin = margin;
-    }
+    public Estimate getEstimate() { return estimate; }
+    public void setEstimate(Estimate estimate) { this.estimate = estimate; }
 
-    public double getTotalCost() {
-        return totalCost;
-    }
-
-    public void setTotalCost(double totalCost) {
-        this.totalCost = totalCost;
-    }
-
-    public double getSurfaceArea() {
-        return surfaceArea;
-    }
-
-    public void setSurfaceArea(double surfaceArea) {
-        this.surfaceArea = surfaceArea;
-    }
-
-    public ProjectState getState() {
-        return state;
-    }
-
-    public void setState(ProjectState state) {
-        this.state = state;
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "nameProject='" + nameProject + '\'' +
-                ", margin=" + margin +
-                ", totalCost=" + totalCost +
-                ", surfaceArea=" + surfaceArea +
-                ", state=" + state +
-                '}';
-    }
+    public void addMaterial(Materiel material) { this.materials.add(material); }
+    public void addLabor(Labor labor) { this.labor.add(labor); }
 }

@@ -1,57 +1,43 @@
 package hariti.asmaa.ma.batiCuisine.entities;
 
-import hariti.asmaa.ma.batiCuisine.enums.ComponentType;
-
-public class Materiel extends Component {
+public class Materiel {
+    private String name;
+    private int quantity;
     private double unitCost;
-    private double quantity;
-    private double transportCost;
-    private double qualityCuff;
+    private double transportationCost;
+    private double qualityCoefficient;
 
-    public Materiel(String name, double vatRate, ComponentType componentType) {
-        super(name, vatRate, componentType);
-    }
-
-
-    public double getUnitCost() {
-        return unitCost;
-    }
-
-    public void setUnitCost(double unitCost) {
-        this.unitCost = unitCost;
-    }
-
-    public double getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(double quantity) {
+    public Materiel(String name, int quantity, double unitCost, double transportationCost, double qualityCoefficient) {
+        this.name = name;
         this.quantity = quantity;
+        this.unitCost = unitCost;
+        this.transportationCost = transportationCost;
+        this.qualityCoefficient = qualityCoefficient;
     }
 
-    public double getTransportCost() {
-        return transportCost;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public void setTransportCost(double transportCost) {
-        this.transportCost = transportCost;
-    }
+    public int getQuantity() { return quantity; }
+    public void setQuantity(int quantity) { this.quantity = quantity; }
 
-    public double getQualityCuff() {
-        return qualityCuff;
-    }
+    public double getUnitCost() { return unitCost; }
+    public void setUnitCost(double unitCost) { this.unitCost = unitCost; }
 
-    public void setQualityCuff(double qualityCuff) {
-        this.qualityCuff = qualityCuff;
-    }
+    public double getTransportationCost() { return transportationCost; }
+    public void setTransportationCost(double transportationCost) { this.transportationCost = transportationCost; }
+
+    public double getQualityCoefficient() { return qualityCoefficient; }
+    public void setQualityCoefficient(double qualityCoefficient) { this.qualityCoefficient = qualityCoefficient; }
 
     @Override
     public String toString() {
         return "Materiel{" +
-                "unitCost=" + unitCost +
+                "name='" + name + '\'' +
                 ", quantity=" + quantity +
-                ", transportCost=" + transportCost +
-                ", qualityCuff=" + qualityCuff +
+                ", unitCost=" + unitCost +
+                ", transportationCost=" + transportationCost +
+                ", qualityCoefficient=" + qualityCoefficient +
                 '}';
     }
 }
