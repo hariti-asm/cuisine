@@ -1,6 +1,9 @@
 package hariti.asmaa.ma.batiCuisine.impl;
 
 import hariti.asmaa.ma.batiCuisine.config.JdbcPostgresqlConnection;
+import hariti.asmaa.ma.batiCuisine.entities.Client;
+import hariti.asmaa.ma.batiCuisine.entities.Component;
+import hariti.asmaa.ma.batiCuisine.entities.Estimate;
 import hariti.asmaa.ma.batiCuisine.entities.Project;
 import hariti.asmaa.ma.batiCuisine.enums.ProjectState;
 import hariti.asmaa.ma.batiCuisine.repositories.ProjectRepository;
@@ -10,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class ProjectRepositoryImpl implements ProjectRepository {
@@ -21,13 +25,31 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Project save(Project project) {
-        String sql = "INSERT INTO " + tableName + " (project_id, nameproject, surfacearea, state) VALUES (?, ?, ?, ?::projectstate)";
+        String sql = "INSERT INTO " + tableName +
+                " (id, projectname, profitmargin, totalcost, projectstate, client_id, estimate_id, surfacearea) " +
+                "VALUES (?, ?, ?, ?, ?::projectstate, ?, ?, ?)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            UUID projectId = UUID.randomUUID(); // Generate a new ID
+            UUID projectId = UUID.randomUUID();
             stmt.setObject(1, projectId);
             stmt.setString(2, project.getName());
-            stmt.setDouble(3, project.getSurfaceArea());
-            stmt.setString(4, project.getProjectState().name()); // Get the enum name as string
+            stmt.setObject(3, project.getMargin());
+            stmt.setObject(4, project.getTotalCost());
+            stmt.setString(5, project.getProjectState().name());
+
+            if (project.getClient() != null) {
+                stmt.setObject(6, project.getClient().get().getId());
+            } else {
+                stmt.setNull(6, java.sql.Types.OTHER);
+            }
+
+            if (project.getEstimate() != null) {
+                stmt.setObject(7, project.getEstimate().getId());
+            } else {
+                stmt.setNull(7, java.sql.Types.OTHER);
+            }
+
+            stmt.setDouble(8, project.getSurfaceArea());
+
             stmt.executeUpdate();
             project.setId(projectId);
         } catch (SQLException e) {
@@ -54,21 +76,39 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Project findById(UUID projectId) {
-        /*String sql = "SELECT * FROM " + tableName + " WHERE project_id = ?";
+        String sql = "SELECT * FROM " + tableName + " WHERE project_id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, projectId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 String name = rs.getString("nameproject");
                 double surfaceArea = rs.getDouble("surfacearea");
+                Double vatRate = rs.getObject("vat_rate", Double.class);
+                Double totalCost = rs.getObject("total_cost", Double.class);
+                Double margin = rs.getObject("margin", Double.class);
                 ProjectState projectState = ProjectState.valueOf(rs.getString("project_state"));
-                return new Project(projectId, name, surfaceArea, projectState);
+                Client client = null;
+                List<Component> components = null;
+                Estimate estimate = null;
+                return new Project(
+                        projectId,
+                        name,
+                        surfaceArea,
+                        vatRate,
+                        totalCost,
+                        margin,
+                        projectState,
+                        Optional.ofNullable(client),
+                        components,
+                        estimate
+                );
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
         return null;
     }
+
 
     @Override
     public List<Project> findAll() {

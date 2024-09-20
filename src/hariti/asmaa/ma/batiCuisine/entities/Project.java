@@ -3,28 +3,30 @@ package hariti.asmaa.ma.batiCuisine.entities;
 import hariti.asmaa.ma.batiCuisine.enums.ProjectState;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class Project {
     private UUID id;
     private String name;
     private double surfaceArea;
-    private Double vatRate;
     private Double totalCost;
     private  Double margin;
     private ProjectState projectState;
-    private List<Materiel> materials;
-    private List<Labor> labor;
-    private Estimate estimate;
+    private Optional<Client> client;
+    private List<Component> components;
+    private Estimate estimate; ;
 
-    public Project( UUID id ,String name, double surfaceArea, ProjectState projectState , Double vatRate , Double margin, Double totalCost, Estimate estimate ) {
+    public Project(UUID id, String name, double surfaceArea, Double vatRate, Double totalCost, Double margin, ProjectState projectState, Optional<Client> client, List<Component> components, Estimate estimate) {
         this.id = id;
         this.name = name;
         this.surfaceArea = surfaceArea;
-        this.projectState = projectState;
-        this.vatRate = vatRate;
-        this.margin = margin;
         this.totalCost = totalCost;
+        this.margin = margin;
+        this.projectState = projectState;
+        this.client = client;
+        this.components = components;
+        this.estimate = estimate;
     }
 
     public String getName() { return name; }
@@ -36,17 +38,9 @@ public class Project {
     public ProjectState getProjectState() { return projectState; }
     public void setProjectState(ProjectState projectState) { this.projectState = projectState; }
 
-    public List<Materiel> getMaterials() { return materials; }
-    public void setMaterials(List<Materiel> materials) { this.materials = materials; }
-
-    public List<Labor> getLabors() { return labor; }
-    public void setLabors(List<Labor> labor) { this.labor = labor; }
-
     public Estimate getEstimate() { return estimate; }
     public void setEstimate(Estimate estimate) { this.estimate = estimate; }
 
-    public void addMaterial(Materiel material) { this.materials.add(material); }
-    public void addLabor(Labor labor) { this.labor.add(labor); }
 
     public UUID getId() {
         return id;
@@ -56,13 +50,7 @@ public class Project {
         this.id = id;
     }
 
-    public Double getVatRate() {
-        return vatRate;
-    }
 
-    public void setVatRate(Double vatRate) {
-        this.vatRate = vatRate;
-    }
 
     public Double getMargin() {
         return margin;
@@ -86,13 +74,26 @@ public class Project {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", surfaceArea=" + surfaceArea +
-                ", vatRate=" + vatRate +
                 ", totalCost=" + totalCost +
                 ", margin=" + margin +
                 ", projectState=" + projectState +
-                ", materials=" + materials +
-                ", labor=" + labor +
                 ", estimate=" + estimate +
                 '}';
+    }
+
+    public Optional<Client> getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = Optional.ofNullable(client);
+    }
+
+    public List<Component> getComponents() {
+        return components;
+    }
+
+    public void setComponents(List<Component> components) {
+        this.components = components;
     }
 }

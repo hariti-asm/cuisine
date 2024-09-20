@@ -3,8 +3,10 @@ package hariti.asmaa.ma.batiCuisine.entities;
 import hariti.asmaa.ma.batiCuisine.enums.EstimateStatus;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 public class Estimate {
+    private UUID id;
     private LocalDate issueDate;
     private LocalDate validityDate;
     private EstimateStatus status;
@@ -57,5 +59,13 @@ public class Estimate {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 }

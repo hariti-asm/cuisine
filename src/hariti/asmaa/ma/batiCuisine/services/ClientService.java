@@ -21,6 +21,9 @@ public class ClientService {
     public Optional<Client> getClientByName(String name) {
         return clientRepository.getClientByName(name);
     }
+    public Optional<Client> getClientById(UUID id) {
+        return clientRepository.getClientById(id);
+    }
     public boolean deleteClient(UUID clientId) {
         return clientRepository.deleteClient(clientId);
 

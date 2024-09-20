@@ -66,6 +66,30 @@ public class ClientRepositoryImpl implements ClientRepository {
         }
         return Optional.empty();
     }
+@Override
+public Optional<Client> getClientById(UUID clientId) {
+    String query = "SELECT * FROM " + tableName + " WHERE id = ?";
+    try (PreparedStatement pst = connection.prepareStatement(query)) {
+        pst.setObject(1, clientId);
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                String name = rs.getString("name");
+                String address = rs.getString("address");
+                String phone = rs.getString("phone");
+
+                return Optional.of(new Client(
+                        clientId,
+                        name,
+                        address,
+                        phone
+                ));
+            }
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException("Error querying client by ID", e);
+    }
+    return Optional.empty();
+}
 
     @Override
     public Optional<Client> updateClient(Client client) {
