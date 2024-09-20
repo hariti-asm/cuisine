@@ -1,25 +1,26 @@
 package hariti.asmaa.ma.batiCuisine.entities;
 
-public class Materiel {
-    private String name;
-    private int quantity;
+import hariti.asmaa.ma.batiCuisine.enums.ComponentType;
+
+import java.util.UUID;
+
+public class  Materiel extends Component {
+    private UUID id;
+    private double quantity;
     private double unitCost;
     private double transportationCost;
     private double qualityCoefficient;
 
-    public Materiel(String name, int quantity, double unitCost, double transportationCost, double qualityCoefficient) {
-        this.name = name;
+    public Materiel(String name,  ComponentType componentType, double quantity, double unitCost, double transportationCost, double qualityCoefficient) {
+        super(name,  componentType);
         this.quantity = quantity;
         this.unitCost = unitCost;
         this.transportationCost = transportationCost;
         this.qualityCoefficient = qualityCoefficient;
     }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public int getQuantity() { return quantity; }
-    public void setQuantity(int quantity) { this.quantity = quantity; }
+    public double getQuantity() { return quantity; }
+public void setQuantity(double quantity) { this.quantity = quantity; }
 
     public double getUnitCost() { return unitCost; }
     public void setUnitCost(double unitCost) { this.unitCost = unitCost; }
@@ -33,11 +34,18 @@ public class Materiel {
     @Override
     public String toString() {
         return "Materiel{" +
-                "name='" + name + '\'' +
                 ", quantity=" + quantity +
                 ", unitCost=" + unitCost +
                 ", transportationCost=" + transportationCost +
                 ", qualityCoefficient=" + qualityCoefficient +
                 '}';
+    }
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 }

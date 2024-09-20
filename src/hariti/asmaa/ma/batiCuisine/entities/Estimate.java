@@ -8,12 +8,15 @@ public class Estimate {
     private LocalDate issueDate;
     private LocalDate validityDate;
     private EstimateStatus status;
-
-    public Estimate( LocalDate issueDate, LocalDate validityDate, EstimateStatus status) {
+    private Project project;
+    public Estimate( Project project , LocalDate issueDate, LocalDate validityDate, EstimateStatus status) {
         this.issueDate = issueDate;
         this.validityDate = validityDate;
         this.status = status;
+        this.project = project;
     }
+
+
 
     public LocalDate getIssueDate() {
         return issueDate;
@@ -46,5 +49,13 @@ public class Estimate {
                 ", validityDate=" + validityDate +
                 ", status=" + status +
                 '}';
+    }
+
+    public Project getProject() {
+        return project;
+    }
+
+    public void setProject(Project project) {
+        this.project = project;
     }
 }
