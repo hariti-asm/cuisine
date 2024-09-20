@@ -9,14 +9,14 @@ public class Project {
     private UUID id;
     private String name;
     private double surfaceArea;
-    private double vatRate;
+    private Double vatRate;
     private  double margin;
     private ProjectState projectState;
     private List<Materiel> materials;
     private List<Labor> labor;
     private Estimate estimate;
 
-    public Project( UUID id ,String name, double surfaceArea, ProjectState projectState , double vatRate , double margin, Estimate estimate ) {
+    public Project( UUID id ,String name, double surfaceArea, ProjectState projectState , Double vatRate , double margin, Estimate estimate ) {
         this.id = id;
         this.name = name;
         this.surfaceArea = surfaceArea;
@@ -54,11 +54,11 @@ public class Project {
         this.id = id;
     }
 
-    public double getVatRate() {
+    public Double getVatRate() {
         return vatRate;
     }
 
-    public void setVatRate(double vatRate) {
+    public void setVatRate(Double vatRate) {
         this.vatRate = vatRate;
     }
 

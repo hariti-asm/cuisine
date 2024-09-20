@@ -5,8 +5,6 @@ import hariti.asmaa.ma.batiCuisine.enums.ProjectState;
 import hariti.asmaa.ma.batiCuisine.services.ProjectService;
 import hariti.asmaa.ma.batiCuisine.controllers.helpers.LaborMenu;
 import hariti.asmaa.ma.batiCuisine.controllers.helpers.MaterielMenu;
-import hariti.asmaa.ma.batiCuisine.entities.Labor;
-import hariti.asmaa.ma.batiCuisine.entities.Materiel;
 
 import java.util.Scanner;
 import java.util.UUID;
@@ -39,10 +37,12 @@ public class ProjectMenu {
                 createNewProject();
                 break;
             case "2":
-                laborMenu.addLabors();
+                double vatRate = getVatRate();
+                laborMenu.addLabors(vatRate);
                 break;
             case "3":
-                materialMenu.addMaterials();
+                vatRate = getVatRate();
+                materialMenu.addMaterials(vatRate);
                 break;
             case "4":
                 System.out.println("Exiting...");
@@ -67,26 +67,15 @@ public class ProjectMenu {
         ProjectState projectState = ProjectState.valueOf(scanner.nextLine().toUpperCase());
 
         Double vatRate = null;
-        Double margin = null;
-
-        System.out.println("Do you want to add labor to this project? (y/n)");
-        if (scanner.nextLine().equalsIgnoreCase("y")) {
-            laborMenu.addLabors();
-        }
-
-        System.out.println("Do you want to add materials to this project? (y/n)");
-        if (scanner.nextLine().equalsIgnoreCase("y")) {
-            materialMenu.addMaterials();
-        }
-
-        System.out.println("Would you like to add a VAT rate for this project? (y/n): ");
+        System.out.print("Would you like to add a VAT rate for this project? (y/n): ");
         if (scanner.nextLine().equalsIgnoreCase("y")) {
             System.out.print("Please enter the VAT rate: ");
             vatRate = scanner.nextDouble();
             scanner.nextLine();
         }
 
-        System.out.println("Would you like to set a benefit margin for this project? (y/n): ");
+        Double margin = null;
+        System.out.print("Would you like to set a benefit margin for this project? (y/n): ");
         if (scanner.nextLine().equalsIgnoreCase("y")) {
             System.out.print("Please enter the benefit margin: ");
             margin = scanner.nextDouble();
@@ -96,6 +85,18 @@ public class ProjectMenu {
         Project project = new Project(UUID.randomUUID(), projectName, kitchenSurface, projectState, vatRate, margin, null);
         projectService.save(project);
 
+        if (vatRate != null) {
+            laborMenu.addLabors(vatRate);
+            materialMenu.addMaterials(vatRate);
+        } else {
+            laborMenu.addLabors(0);
+            materialMenu.addMaterials(0);
+        }
+
         System.out.println("Project '" + projectName + "' successfully created.");
+    }
+
+    private double getVatRate() {
+        return projectService.getCurrentVatRate();
     }
 }

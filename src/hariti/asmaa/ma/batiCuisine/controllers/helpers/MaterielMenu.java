@@ -19,7 +19,7 @@ public class MaterielMenu {
         this.scanner = new Scanner(System.in);
     }
 
-    public void addMaterials() {
+    public void addMaterials(double vatRate) {
         List<Materiel> materials = new ArrayList<>();
         while (true) {
             System.out.println("--- Add Materials ---");
@@ -44,7 +44,7 @@ public class MaterielMenu {
             double qualityCoefficient = scanner.nextDouble();
             scanner.nextLine();
 
-            Materiel material = new Materiel(materialName,  componentType, quantity, unitCost, transportCost, qualityCoefficient);
+            Materiel material = new Materiel(materialName, componentType, quantity, unitCost, transportCost, qualityCoefficient);
             materials.add(material);
             System.out.println("Material added successfully!");
 
@@ -54,7 +54,7 @@ public class MaterielMenu {
             }
         }
 
-        materielService.saveAll(materials);
+        materielService.saveAll(materials, vatRate);
         System.out.println("All materials have been saved successfully!");
     }
 }

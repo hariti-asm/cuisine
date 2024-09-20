@@ -19,8 +19,11 @@ public class LaborMenu {
         this.scanner = new Scanner(System.in);
     }
 
-    public void addLabors() {
+    public void addLabors(double vatRate) {
         List<Labor> labors = new ArrayList<>();
+        double totalLaborCostBeforeTVA;
+        double totalLaborCostWithTVA;
+
         while (true) {
             System.out.println("--- Add Labor ---");
             System.out.print("Enter labor name: ");
@@ -32,13 +35,12 @@ public class LaborMenu {
             System.out.print("Enter number of hours worked: ");
             int hoursWorked = scanner.nextInt();
 
-            System.out.print("Enter productivity factor:(1.0 = standard, > 1.0 = high productivity) : 1.1 ");
+            System.out.print("Enter productivity factor (1.0 = standard, > 1.0 = high productivity): ");
             double productivityFactor = scanner.nextDouble();
 
             scanner.nextLine();
 
             Labor labor = new Labor(name, ComponentType.LABOR, hourlyRate, hoursWorked, productivityFactor);
-
             labors.add(labor);
             System.out.println("Labor added successfully!");
 
@@ -48,6 +50,15 @@ public class LaborMenu {
             }
         }
 
-        laborService.saveAll(labors);
+        totalLaborCostBeforeTVA = laborService.calculateTotalLaborCostBeforeTVA(labors);
+        totalLaborCostWithTVA = laborService.calculateTotalLaborCostWithTVA(labors, vatRate);
+
+        System.out.println("Total labor cost before TVA: " + String.format("%.2f", totalLaborCostBeforeTVA) + " €");
+        System.out.println("Total labor cost with TVA (" + vatRate + "%): " + String.format("%.2f", totalLaborCostWithTVA) + " €");
+
+        laborService.saveAll(labors, vatRate);
     }
+
+
+
 }
