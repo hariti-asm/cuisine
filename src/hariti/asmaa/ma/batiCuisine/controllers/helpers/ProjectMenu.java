@@ -82,7 +82,7 @@ public class ProjectMenu {
             scanner.nextLine();
         }
 
-        Project project = new Project(UUID.randomUUID(), projectName, kitchenSurface, projectState, vatRate, margin, null);
+        Project project = new Project(UUID.randomUUID(), projectName, kitchenSurface, projectState, vatRate, margin, null , null);
         projectService.save(project);
 
         if (vatRate != null) {

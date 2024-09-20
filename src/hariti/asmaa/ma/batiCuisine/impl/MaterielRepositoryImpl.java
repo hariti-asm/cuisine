@@ -19,16 +19,14 @@ public class MaterielRepositoryImpl implements MaterielRepository {
 
     @Override
     public void addMateriel(Materiel materiel) {
-        String sql = "INSERT INTO " + tableName + " (id, name, vat_rate, component_type, quantity, unitcost, transportcost, qualitycoeff) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO " + tableName + " (unitcost, quantity, transportcost, qualitycoeff, name, component_type) VALUES ( ?, ?, ?, ?, ?, ?::componenttype)";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setObject(1, materiel.getId());
-            stmt.setString(2, materiel.getName());
-            stmt.setDouble(3, materiel.getVatRate());
-            stmt.setString(4, materiel.getComponentType().name());
-            stmt.setDouble(5, materiel.getQuantity());
-            stmt.setDouble(6, materiel.getUnitCost());
-            stmt.setDouble(7, materiel.getTransportationCost());
-            stmt.setDouble(8, materiel.getQualityCoefficient());
+            stmt.setDouble(1, materiel.getUnitCost());
+            stmt.setDouble(2, materiel.getQuantity());
+            stmt.setDouble(3, materiel.getTransportationCost());
+            stmt.setDouble(4, materiel.getQualityCoefficient());
+            stmt.setString(5, materiel.getName());
+            stmt.setString(6, materiel.getComponentType().name());
 
             stmt.executeUpdate();
         } catch (SQLException e) {

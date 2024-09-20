@@ -10,10 +10,12 @@ import java.util.UUID;
 public class ClientMenu {
 
     private final ClientService clientService;
+    private  final ProjectMenu projectMenu;
     private final Scanner scanner = new Scanner(System.in);
 
-    public ClientMenu(ClientService clientService) {
+    public ClientMenu(ClientService clientService , ProjectMenu projectMenu) {
         this.clientService = clientService;
+        this.projectMenu = projectMenu;
     }
 
     public void showMenu() {
@@ -69,6 +71,9 @@ public class ClientMenu {
             System.out.println("Phone number: " + client.getPhone());
 
             System.out.print("Do you want to continue with this client? (y/n): ");
+            if (scanner.next().equalsIgnoreCase("y")) {
+                projectMenu.showMenu();
+            }
             String continueOption = scanner.nextLine();
 
             if (!continueOption.equalsIgnoreCase("y")) {
@@ -100,7 +105,7 @@ public class ClientMenu {
 
     private void updateClient() {
         System.out.println("\n--- Update Client Information ---");
-        System.out.print("Enter the client's current name: ");
+        System.out.print("Enter the client's name: ");
         String name = scanner.nextLine();
 
         Optional<Client> clientOptional = clientService.getClientByName(name);
@@ -109,21 +114,14 @@ public class ClientMenu {
             Client client = clientOptional.get();
             System.out.println("Client found!");
 
-            System.out.print("Enter new name (leave blank to keep current): ");
-            String newName = scanner.nextLine();
             System.out.print("Enter new address (leave blank to keep current): ");
             String newAddress = scanner.nextLine();
             System.out.print("Enter new phone number (leave blank to keep current): ");
             String newPhone = scanner.nextLine();
 
-            if (!newName.isEmpty()) {
-                client.setName(newName);
-            }
-
             if (!newAddress.isEmpty()) {
                 client.setAddress(newAddress);
             }
-
             if (!newPhone.isEmpty()) {
                 client.setPhone(newPhone);
             }
