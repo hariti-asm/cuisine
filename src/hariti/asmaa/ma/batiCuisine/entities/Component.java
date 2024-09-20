@@ -4,11 +4,9 @@ import hariti.asmaa.ma.batiCuisine.enums.ComponentType;
 
 public class Component {
     private String name;
-    private double vatRate;
     private ComponentType componentType;
-    public Component(String name, double vatRate, ComponentType componentType) {
+    public Component(String name, ComponentType componentType) {
         this.name = name;
-        this.vatRate = vatRate;
         this.componentType = componentType;
     }
 
@@ -20,13 +18,7 @@ public class Component {
         this.name = name;
     }
 
-    public double getVatRate() {
-        return vatRate;
-    }
 
-    public void setVatRate(double vatRate) {
-        this.vatRate = vatRate;
-    }
 
     public ComponentType getComponentType() {
         return componentType;
@@ -40,7 +32,6 @@ public class Component {
     public String toString() {
         return "Component{" +
                 "name='" + name + '\'' +
-                ", vatRate=" + vatRate +
                 ", componentType=" + componentType +
                 '}';
     }
