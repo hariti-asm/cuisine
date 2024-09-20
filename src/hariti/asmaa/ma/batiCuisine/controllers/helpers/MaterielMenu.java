@@ -26,11 +26,6 @@ public class MaterielMenu {
 
             System.out.print("Enter material name: ");
             String materialName = scanner.nextLine();
-
-            System.out.print("Enter component type (ex., LABOR, MATERIAL): ");
-            String componentTypeStr = scanner.nextLine();
-            ComponentType componentType = ComponentType.valueOf(componentTypeStr.toUpperCase());
-
             System.out.print("Enter quantity of this material: ");
             double quantity = scanner.nextDouble();
 
@@ -44,7 +39,7 @@ public class MaterielMenu {
             double qualityCoefficient = scanner.nextDouble();
             scanner.nextLine();
 
-            Materiel material = new Materiel(materialName, componentType, quantity, unitCost, transportCost, qualityCoefficient);
+            Materiel material = new Materiel(materialName, ComponentType.MATERIAL, quantity, unitCost, transportCost, qualityCoefficient);
             materials.add(material);
             System.out.println("Material added successfully!");
 

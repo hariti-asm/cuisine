@@ -10,19 +10,21 @@ public class Project {
     private String name;
     private double surfaceArea;
     private Double vatRate;
-    private  double margin;
+    private Double totalCost;
+    private  Double margin;
     private ProjectState projectState;
     private List<Materiel> materials;
     private List<Labor> labor;
     private Estimate estimate;
 
-    public Project( UUID id ,String name, double surfaceArea, ProjectState projectState , Double vatRate , double margin, Estimate estimate ) {
+    public Project( UUID id ,String name, double surfaceArea, ProjectState projectState , Double vatRate , Double margin, Double totalCost, Estimate estimate ) {
         this.id = id;
         this.name = name;
         this.surfaceArea = surfaceArea;
         this.projectState = projectState;
         this.vatRate = vatRate;
         this.margin = margin;
+        this.totalCost = totalCost;
     }
 
     public String getName() { return name; }
@@ -37,8 +39,8 @@ public class Project {
     public List<Materiel> getMaterials() { return materials; }
     public void setMaterials(List<Materiel> materials) { this.materials = materials; }
 
-    public List<Labor> getLabor() { return labor; }
-    public void setLabor(List<Labor> labor) { this.labor = labor; }
+    public List<Labor> getLabors() { return labor; }
+    public void setLabors(List<Labor> labor) { this.labor = labor; }
 
     public Estimate getEstimate() { return estimate; }
     public void setEstimate(Estimate estimate) { this.estimate = estimate; }
@@ -62,12 +64,20 @@ public class Project {
         this.vatRate = vatRate;
     }
 
-    public double getMargin() {
+    public Double getMargin() {
         return margin;
     }
 
-    public void setMargin(double margin) {
+    public void setMargin(Double margin) {
         this.margin = margin;
+    }
+
+    public Double getTotalCost() {
+        return totalCost;
+    }
+
+    public void setTotalCost(Double totalCost) {
+        this.totalCost = totalCost;
     }
 
     @Override
@@ -77,6 +87,7 @@ public class Project {
                 ", name='" + name + '\'' +
                 ", surfaceArea=" + surfaceArea +
                 ", vatRate=" + vatRate +
+                ", totalCost=" + totalCost +
                 ", margin=" + margin +
                 ", projectState=" + projectState +
                 ", materials=" + materials +

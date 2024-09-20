@@ -8,6 +8,8 @@ import hariti.asmaa.ma.batiCuisine.impl.ClientRepositoryImpl;
 import hariti.asmaa.ma.batiCuisine.impl.ProjectRepositoryImpl;
 import hariti.asmaa.ma.batiCuisine.impl.LaborRepositoryImpl;
 import hariti.asmaa.ma.batiCuisine.impl.MaterielRepositoryImpl;
+import hariti.asmaa.ma.batiCuisine.repositories.LaborRepository;
+import hariti.asmaa.ma.batiCuisine.repositories.MaterielRepository;
 import hariti.asmaa.ma.batiCuisine.services.ClientService;
 import hariti.asmaa.ma.batiCuisine.services.ProjectService;
 import hariti.asmaa.ma.batiCuisine.services.LaborService;
@@ -23,26 +25,20 @@ public class Main {
 
     static {
         try {
-            // Initialize Client components
             ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
-            ClientService clientService = new ClientService(clientRepository);
-            clientMenu = new ClientMenu(clientService);
-
-            // Initialize Project components
             ProjectRepositoryImpl projectRepository = new ProjectRepositoryImpl();
-            ProjectService projectService = new ProjectService(projectRepository);
+            LaborRepository laborRepository = new LaborRepositoryImpl();
+            MaterielRepository materielRepository = new MaterielRepositoryImpl();
 
-            // Initialize Labor components
-            LaborRepositoryImpl laborRepository = new LaborRepositoryImpl();
+            ClientService clientService = new ClientService(clientRepository);
             LaborService laborService = new LaborService(laborRepository);
-            LaborMenu laborMenu = new LaborMenu(laborService);
-
-            // Initialize Materiel components
-            MaterielRepositoryImpl materielRepository = new MaterielRepositoryImpl();
             MaterielService materielService = new MaterielService(materielRepository);
-            MaterielMenu materielMenu = new MaterielMenu(materielService);
+            ProjectService projectService = new ProjectService(projectRepository, laborService, materielService);
 
+            LaborMenu laborMenu = new LaborMenu(laborService);
+            MaterielMenu materielMenu = new MaterielMenu(materielService);
             projectMenu = new ProjectMenu(projectService, laborMenu, materielMenu);
+            clientMenu = new ClientMenu(clientService, projectMenu);
 
         } catch (SQLException e) {
             System.err.println("Error initializing the repository: " + e.getMessage());
