@@ -28,11 +28,13 @@
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/enums/EstimateStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/enums/EstimateStatus.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/enums/ProjectState.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/enums/ProjectState.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/impl/ClientRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/impl/ClientRepositoryImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/impl/ComponentRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/impl/ComponentRepositoryImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/impl/EstimateRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/impl/EstimateRepositoryImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/impl/ProjectRepositoryImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/impl/ProjectRepositoryImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/repositories/ClientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/repositories/ClientRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/repositories/ProjectRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/repositories/ProjectRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/services/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/services/ClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/services/ComponentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/services/ComponentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/services/EstimateService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/services/EstimateService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/services/ProjectService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/services/ProjectService.java" afterDir="false" />
     </list>
@@ -101,11 +103,26 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1726597608242</updated>
-      <workItem from="1726597609353" duration="41749000" />
+      <workItem from="1726597609353" duration="53644000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/impl/ComponentRepositoryImpl.java</url>
+          <line>20</line>
+          <properties class="hariti.asmaa.ma.batiCuisine.impl.ComponentRepositoryImpl" method="save">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

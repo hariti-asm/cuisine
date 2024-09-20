@@ -18,14 +18,17 @@ public class LaborRepositoryImpl implements LaborRepository {
 
     @Override
     public Labor addLabor(Labor labor) {
-        String sql = "INSERT INTO " + tableName + " (name,  component_type, hourly_rate, work_hours, productivity_factor) VALUES ( ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO " + tableName + " (name, quantity, componenttype, vatrate, project_id, hourlyrate, workinghours, workerproductivity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, labor.getName());
-            stmt.setString(2, labor.getComponentType().name());
-            stmt.setDouble(3, labor.getHourlyRate());
-            stmt.setInt(4, labor.getWorkHours());
-            stmt.setDouble(5, labor.getProductivityFactor());
+            stmt.setInt(2, labor.getQuantity());
+            stmt.setString(3, labor.getComponentType().name());
+            stmt.setDouble(4, labor.getVatRate());
+            stmt.setObject(5, labor.getProject().getId());
+            stmt.setDouble(6, labor.getHourlyRate());
+            stmt.setInt(7, labor.getWorkHours());
+            stmt.setDouble(8, labor.getProductivityFactor());
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected > 0) {

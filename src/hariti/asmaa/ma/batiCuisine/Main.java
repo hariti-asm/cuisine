@@ -4,16 +4,11 @@ import hariti.asmaa.ma.batiCuisine.controllers.helpers.ClientMenu;
 import hariti.asmaa.ma.batiCuisine.controllers.helpers.ProjectMenu;
 import hariti.asmaa.ma.batiCuisine.controllers.helpers.LaborMenu;
 import hariti.asmaa.ma.batiCuisine.controllers.helpers.MaterielMenu;
-import hariti.asmaa.ma.batiCuisine.impl.ClientRepositoryImpl;
-import hariti.asmaa.ma.batiCuisine.impl.ProjectRepositoryImpl;
-import hariti.asmaa.ma.batiCuisine.impl.LaborRepositoryImpl;
-import hariti.asmaa.ma.batiCuisine.impl.MaterielRepositoryImpl;
+import hariti.asmaa.ma.batiCuisine.impl.*;
+import hariti.asmaa.ma.batiCuisine.repositories.ComponentRepository;
 import hariti.asmaa.ma.batiCuisine.repositories.LaborRepository;
 import hariti.asmaa.ma.batiCuisine.repositories.MaterielRepository;
-import hariti.asmaa.ma.batiCuisine.services.ClientService;
-import hariti.asmaa.ma.batiCuisine.services.ProjectService;
-import hariti.asmaa.ma.batiCuisine.services.LaborService;
-import hariti.asmaa.ma.batiCuisine.services.MaterielService;
+import hariti.asmaa.ma.batiCuisine.services.*;
 
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -29,15 +24,16 @@ public class Main {
             ProjectRepositoryImpl projectRepository = new ProjectRepositoryImpl();
             LaborRepository laborRepository = new LaborRepositoryImpl();
             MaterielRepository materielRepository = new MaterielRepositoryImpl();
-
+            ComponentRepository componentRepository = new ComponentRepositoryImpl();
             ClientService clientService = new ClientService(clientRepository);
+            ComponentService componentService = new ComponentService(componentRepository);
             LaborService laborService = new LaborService(laborRepository);
             MaterielService materielService = new MaterielService(materielRepository);
             ProjectService projectService = new ProjectService(projectRepository, laborService, materielService);
 
             LaborMenu laborMenu = new LaborMenu(laborService);
-            MaterielMenu materielMenu = new MaterielMenu(materielService);
-            projectMenu = new ProjectMenu(projectService, laborMenu, materielMenu);
+            MaterielMenu materielMenu = new MaterielMenu(componentService);
+            projectMenu = new ProjectMenu(projectService, laborMenu, materielMenu , clientService);
             clientMenu = new ClientMenu(clientService, projectMenu);
 
         } catch (SQLException e) {
