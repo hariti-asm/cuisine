@@ -17,7 +17,7 @@ public class Project {
     private List<Component> components;
     private Estimate estimate; ;
 
-    public Project(UUID id, String name, double surfaceArea, Double vatRate, Double totalCost, Double margin, ProjectState projectState, Optional<Client> client, List<Component> components, Estimate estimate) {
+    public Project(UUID id, String name, double surfaceArea,  Double totalCost, Double margin, ProjectState projectState, Optional<Client> client, List<Component> components, Estimate estimate) {
         this.id = id;
         this.name = name;
         this.surfaceArea = surfaceArea;
