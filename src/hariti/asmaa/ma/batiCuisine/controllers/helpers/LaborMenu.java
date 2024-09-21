@@ -31,8 +31,7 @@ public class LaborMenu {
 
             System.out.print("Enter hourly rate for this labor: ");
             double hourlyRate = scanner.nextDouble();
-            System.out.print("How many labors do u want ?: ");
-            Integer laborsCount = scanner.nextInt();
+
             System.out.print("Enter number of hours worked: ");
             int hoursWorked = scanner.nextInt();
 
@@ -41,8 +40,11 @@ public class LaborMenu {
 
             scanner.nextLine();
 
-            Labor labor = new Labor(name, ComponentType.LABOR, project, vatRate,  laborsCount,hourlyRate, hoursWorked, productivityFactor);
+            int quantity = 1;
+
+            Labor labor = new Labor(name, ComponentType.LABOR, project, vatRate, quantity, hourlyRate, hoursWorked, productivityFactor);
             labors.add(labor);
+
             System.out.println("Labor added successfully!");
 
             System.out.print("Do you want to add another type of labor? (y/n): ");
