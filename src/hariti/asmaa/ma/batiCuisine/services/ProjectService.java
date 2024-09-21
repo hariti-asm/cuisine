@@ -7,6 +7,7 @@ import hariti.asmaa.ma.batiCuisine.entities.Labor;
 import hariti.asmaa.ma.batiCuisine.repositories.ProjectRepository;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,45 +28,63 @@ public class ProjectService {
     }
 
     public Project save(Project project) {
-        List<Component> components = project.getComponents();
-
-        if (components == null) {
-            components = new ArrayList<>();
-            project.setComponents(components);
-        }
-
-        List<Labor> labors = components.stream()
-                .filter(component -> component instanceof Labor)
-                .map(component -> (Labor) component)
-                .toList();
-
-        List<Materiel> materials = components.stream()
-                .filter(component -> component instanceof Materiel)
-                .map(component -> (Materiel) component)
-                .toList();
-
-        Double margin = project.getMargin();
-
-        double laborVatRate = 0;
-        double materialVatRate = 0;
-
-        double totalLaborCostBeforeTVA = laborService.calculateTotalLaborCostBeforeTVA(labors);
-        double totalLaborCostWithVAT = laborService.calculateTotalLaborCostWithTVA(labors, laborVatRate);
-
-        double totalMaterialCostBeforeTVA = materielService.calculateTotalCostBeforeTVA(materials);
-        double totalMaterialCostWithVAT = materielService.calculateTotalCostWithVAT(materials, materialVatRate);
-
-        double totalCostBeforeMargin = totalLaborCostWithVAT + totalMaterialCostWithVAT;
-
-        double marginValue = 0;
-        if (margin != null) {
-            marginValue = totalCostBeforeMargin * (margin / 100);
-        }
-
-        project.setTotalCost(totalCostBeforeMargin);
-        project.setMargin(marginValue);
 
         return projectRepository.save(project);
+    }
+    public  HashMap<String, Double> calculateTotalCost(Project project, ArrayList<Materiel> materials, ArrayList<Labor> labors) {
+
+
+        HashMap<String, Double> costDetails = new HashMap<>();
+
+
+        double totalMaterialCostBeforeTax = 0;
+        double totalMaterialCostWithTax = 0;
+
+
+        if (!materials.isEmpty()) {
+            totalMaterialCostBeforeTax = materials.stream()
+                    .mapToDouble(material -> material.getQuantity() * material.getUnitCost() * material.getQualityCoefficient() + material.getTransportationCost())
+                    .sum();
+            costDetails.put("Total Material Cost Before Tax", totalMaterialCostBeforeTax);
+
+            double materialTaxRate = materials.get(0).getVatRate();
+            totalMaterialCostWithTax = totalMaterialCostBeforeTax * (1 + materialTaxRate / 100);
+            costDetails.put("Total Material Cost With Tax", totalMaterialCostWithTax);
+        } else {
+            costDetails.put("Total Material Cost Before Tax", totalMaterialCostBeforeTax);
+            costDetails.put("Total Material Cost With Tax", totalMaterialCostWithTax);
+        }
+
+
+        double totalLaborCostBeforeTax = 0;
+        double totalLaborCostWithTax = 0;
+
+        if (!labors.isEmpty()) {
+            totalLaborCostBeforeTax = labors.stream()
+                    .mapToDouble(labor -> labor.getHourlyRate() * labor.getWorkHours() * labor.getProductivityFactor())
+                    .sum();
+            costDetails.put("Total Labor Cost Before Tax", totalLaborCostBeforeTax);
+
+            double laborTaxRate = labors.get(0).getVatRate();
+            totalLaborCostWithTax = totalLaborCostBeforeTax * (1 + laborTaxRate / 100);
+            costDetails.put("Total Labor Cost With Tax", totalLaborCostWithTax);
+        } else {
+            costDetails.put("Total Labor Cost Before Tax", totalLaborCostBeforeTax);
+            costDetails.put("Total Labor Cost With Tax", totalLaborCostWithTax);
+        }
+
+
+        double totalCostBeforeMargin = totalMaterialCostWithTax + totalLaborCostWithTax;
+        costDetails.put("Total Cost Before Margin", totalCostBeforeMargin);
+
+        double marginAmount = totalCostBeforeMargin * (project.getMargin() / 100);
+        costDetails.put("Margin Amount", marginAmount);
+
+        double totalCostWithMargin = totalCostBeforeMargin + marginAmount;
+
+        costDetails.put("Total Cost After Margin Profit", totalCostWithMargin);
+
+        return costDetails;
     }
 
 
