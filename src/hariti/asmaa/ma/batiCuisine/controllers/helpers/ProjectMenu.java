@@ -16,42 +16,21 @@ public class ProjectMenu {
     private final Scanner scanner = new Scanner(System.in);
     private final LaborMenu laborMenu;
     private final MaterielMenu materialMenu;
+    private final ClientMenu clientMenu;
 
-    public ProjectMenu(ProjectService projectService, LaborMenu laborMenu, MaterielMenu materialMenu, ClientService clientService, ComponentService componentService) {
+    public ProjectMenu(ProjectService projectService, LaborMenu laborMenu, MaterielMenu materialMenu, ClientService clientService, ComponentService componentService, ClientMenu clientMenu) {
         this.projectService = projectService;
         this.laborMenu = laborMenu;
         this.materialMenu = materialMenu;
         this.clientService = clientService;
         this.componentService = componentService;
+        this.clientMenu = clientMenu;
     }
 
     public void showMenu() {
         while (true) {
-            System.out.println("\n--- Project Menu ---");
-            System.out.println("1. Create a New Project");
-            System.out.println("2. Add Labor to a Project");
-            System.out.println("3. Add Materials to a Project");
-            System.out.println("4. Exit");
-            System.out.print("Choose an option: ");
-
-            String option = scanner.nextLine();
-
-            switch (option) {
-                case "1":
-                    addProject();
-                    break;
-                case "2":
-                    addLaborToProject();
-                    break;
-                case "3":
-                    addMaterialsToProject();
-                    break;
-                case "4":
-                    System.out.println("Exiting...");
-                    return;
-                default:
-                    System.out.println("Invalid option. Please try again.");
-            }
+            System.out.println("\n--- Project Creation ---");
+            clientMenu.showMenu();
         }
     }
 
@@ -217,4 +196,45 @@ public class ProjectMenu {
         System.out.println("State: " + project.getProjectState());
         System.out.println("Client: " + project.getClient().get().getName());
     }
+    public void calculateTotalCost() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Veuillez entrer l'ID du projet pour lequel calculer le coût: ");
+        String projectId = scanner.nextLine();
+        Project project = projectService.findById(UUID.fromString(projectId));
+        if (project == null) {
+            System.out.println("Projet non trouvé.");
+            return;
+        }
+
+        System.out.print("Veuillez entrer le taux de TVA (%): ");
+        double tva = Double.parseDouble(scanner.nextLine());
+
+        calculateTotalCost(project, tva);
+    }
+
+    public void calculateTotalCost(Project project, double tva) {
+        materialMenu.addMaterials(project, tva);
+        laborMenu.addLabors(project, tva);
+    }
+
+    public void showExistingProjects() {
+        List<Project> projects = projectService.findAll();
+        if (projects.isEmpty()) {
+            System.out.println("No projects available.");
+        } else {
+            for (Project project : projects) {
+                System.out.println("Project ID: " + project.getId());
+                System.out.println("Name: " + project.getName());
+                System.out.println("Surface Area: " + project.getSurfaceArea());
+                System.out.println("Total Cost: " + project.getTotalCost());
+                System.out.println("Margin: " + project.getMargin());
+                System.out.println("Project State: " + project.getProjectState());
+                System.out.println("Client: " + project.getClient().orElse(null));
+                System.out.println("Estimate: " + project.getEstimate());
+                System.out.println("Components: " + project.getComponents());
+                System.out.println("-----------");
+            }
+        }
+    }
+
 }

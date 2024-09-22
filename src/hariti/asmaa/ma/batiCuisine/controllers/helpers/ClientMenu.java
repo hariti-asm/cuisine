@@ -10,12 +10,14 @@ import java.util.UUID;
 public class ClientMenu {
 
     private final ClientService clientService;
-    private  final ProjectMenu projectMenu;
     private final Scanner scanner = new Scanner(System.in);
+    private ProjectMenu projectMenu;
 
-    public ClientMenu(ClientService clientService , ProjectMenu projectMenu) {
-        this.clientService = clientService;
+    public void setProjectMenu(ProjectMenu projectMenu) {
         this.projectMenu = projectMenu;
+    }
+    public ClientMenu(ClientService clientService ) {
+        this.clientService = clientService;
     }
 
     public void showMenu() {
@@ -72,7 +74,7 @@ public class ClientMenu {
 
             System.out.print("Do you want to continue with this client? (y/n): ");
             if (scanner.next().equalsIgnoreCase("y")) {
-                projectMenu.showMenu();
+                projectMenu.addProject();
             }
             String continueOption = scanner.nextLine();
 
@@ -163,4 +165,5 @@ public class ClientMenu {
             System.out.println("Client not found.");
         }
     }
+
 }

@@ -88,5 +88,7 @@ public class ProjectService {
 public Project update(Project project) {
         return projectRepository.update(project);
 }
-
+public List<Project> findAll() {
+        return projectRepository.findAll();
+}
 }
