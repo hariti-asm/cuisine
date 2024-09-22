@@ -3,29 +3,29 @@ package hariti.asmaa.ma.batiCuisine.controllers.helpers;
 import hariti.asmaa.ma.batiCuisine.entities.Materiel;
 import hariti.asmaa.ma.batiCuisine.entities.Project;
 import hariti.asmaa.ma.batiCuisine.enums.ComponentType;
-import hariti.asmaa.ma.batiCuisine.services.ClientService;
 import hariti.asmaa.ma.batiCuisine.services.ComponentService;
 import hariti.asmaa.ma.batiCuisine.services.MaterielService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class MaterielMenu {
-
-    private  final ComponentService componentService;
+    private final MaterielService materielService;
     private final Scanner scanner;
 
-    public MaterielMenu( ComponentService componentService) {
-        this.componentService = componentService;
+    public MaterielMenu( MaterielService materielService) {
+        this.materielService = materielService;
         this.scanner = new Scanner(System.in);
     }
 
-    public void addMaterials(Project project, double vatRate) {
-        while (true) {
-            System.out.println("--- Add Materials ---");
+    public double addMaterials(Project project, double vatRate) {
+        List<Materiel> materials = new ArrayList<>();
+        double totalMaterialCostBeforeTVA;
+        double totalMaterialCostWithTVA;
 
+        do {
+            System.out.println("--- Add Materials ---");
             System.out.print("Enter material name: ");
             String materialName = scanner.nextLine();
 
@@ -57,16 +57,33 @@ public class MaterielMenu {
             );
 
             material.setVatRate(vatRate);
-            componentService.addComponent(material);
+            materials.add(material);
 
             System.out.println("Material added successfully!");
 
             System.out.print("Do you want to add another material? (y/n): ");
-            if (!scanner.nextLine().equalsIgnoreCase("y")) {
-                break;
-            }
-        }
+        } while (scanner.nextLine().equalsIgnoreCase("y"));
+        System.out.print("Enter VAT rate of this material: ");
+        double tvaValue = scanner.nextDouble();
 
-        System.out.println("All materials have been added to the project successfully!");
+        totalMaterialCostBeforeTVA = calculateTotalMaterialCostBeforeTVA(materials);
+        totalMaterialCostWithTVA = calculateTotalMaterialCostWithTVA(materials, vatRate);
+
+        System.out.println("Total material cost before TVA: " + String.format("%.2f", totalMaterialCostBeforeTVA) + " €");
+        System.out.println("Total material cost with TVA (" + vatRate + "%): " + String.format("%.2f", totalMaterialCostWithTVA) + " €");
+
+        materielService.saveAll(materials ,tvaValue);
+        return totalMaterialCostWithTVA;
+    }
+
+    private double calculateTotalMaterialCostBeforeTVA(List<Materiel> materials) {
+        return materials.stream()
+                .mapToDouble(m -> m.getQuantity() * m.getUnitCost() * m.getQualityCoefficient() + m.getTransportationCost())
+                .sum();
+    }
+
+    private double calculateTotalMaterialCostWithTVA(List<Materiel> materials, double vatRate) {
+        double totalCostBeforeTVA = calculateTotalMaterialCostBeforeTVA(materials);
+        return totalCostBeforeTVA * (1 + vatRate / 100);
     }
 }

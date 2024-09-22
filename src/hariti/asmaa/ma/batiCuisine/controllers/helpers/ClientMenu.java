@@ -94,9 +94,9 @@ public class ClientMenu {
         String phone = scanner.nextLine();
 
         Client newClient = new Client(UUID.randomUUID(), name, address, phone);
-        boolean success = clientService.createClient(newClient);
+        Client success = clientService.createClient(newClient);
 
-        if (success) {
+        if (success != null) {
             System.out.println("Client successfully created.");
         } else {
             System.out.println("Failed to create client. Please try again.");

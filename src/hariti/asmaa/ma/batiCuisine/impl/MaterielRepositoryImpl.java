@@ -12,21 +12,26 @@ import java.util.List;
 
 public class MaterielRepositoryImpl implements MaterielRepository {
     private final Connection connection = JdbcPostgresqlConnection.getInstance().getConnection();
-    private final String tableName = "Material";
+    private final String tableName = "Materiel";
 
     public MaterielRepositoryImpl() throws SQLException {
     }
 
     @Override
     public void addMateriel(Materiel materiel) {
-        String sql = "INSERT INTO " + tableName + " (unitcost, quantity, transportcost, qualitycoeff, name, component_type) VALUES ( ?, ?, ?, ?, ?, ?::componenttype)";
+        String sql = "INSERT INTO " + tableName +
+                " (name, quantity, componenttype, vatrate, project_id, transportcost, qualitycoefficient, unitcost) " +
+                "VALUES (?, ?, ?::componenttype, ?, ?, ?, ?, ?)";
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
-            stmt.setDouble(1, materiel.getUnitCost());
+            stmt.setString(1, materiel.getName());
             stmt.setDouble(2, materiel.getQuantity());
-            stmt.setDouble(3, materiel.getTransportationCost());
-            stmt.setDouble(4, materiel.getQualityCoefficient());
-            stmt.setString(5, materiel.getName());
-            stmt.setString(6, materiel.getComponentType().name());
+            stmt.setString(3, materiel.getComponentType().name());
+            stmt.setDouble(4, materiel.getVatRate());
+            stmt.setObject(5, materiel.getProject().getId());
+            stmt.setDouble(6, materiel.getTransportationCost());
+            stmt.setDouble(7, materiel.getQualityCoefficient());
+            stmt.setDouble(8, materiel.getUnitCost());
 
             stmt.executeUpdate();
         } catch (SQLException e) {

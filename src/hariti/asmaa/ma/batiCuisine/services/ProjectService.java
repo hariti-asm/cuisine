@@ -1,9 +1,6 @@
 package hariti.asmaa.ma.batiCuisine.services;
 
-import hariti.asmaa.ma.batiCuisine.entities.Component;
-import hariti.asmaa.ma.batiCuisine.entities.Project;
-import hariti.asmaa.ma.batiCuisine.entities.Materiel;
-import hariti.asmaa.ma.batiCuisine.entities.Labor;
+import hariti.asmaa.ma.batiCuisine.entities.*;
 import hariti.asmaa.ma.batiCuisine.repositories.ProjectRepository;
 
 import java.util.ArrayList;
@@ -47,7 +44,7 @@ public class ProjectService {
                     .sum();
             costDetails.put("Total Material Cost Before Tax", totalMaterialCostBeforeTax);
 
-            double materialTaxRate = materials.get(0).getVatRate();
+            double materialTaxRate = materials.getFirst().getVatRate();
             totalMaterialCostWithTax = totalMaterialCostBeforeTax * (1 + materialTaxRate / 100);
             costDetails.put("Total Material Cost With Tax", totalMaterialCostWithTax);
         } else {
@@ -65,7 +62,7 @@ public class ProjectService {
                     .sum();
             costDetails.put("Total Labor Cost Before Tax", totalLaborCostBeforeTax);
 
-            double laborTaxRate = labors.get(0).getVatRate();
+            double laborTaxRate = labors.getFirst().getVatRate();
             totalLaborCostWithTax = totalLaborCostBeforeTax * (1 + laborTaxRate / 100);
             costDetails.put("Total Labor Cost With Tax", totalLaborCostWithTax);
         } else {
@@ -87,5 +84,9 @@ public class ProjectService {
         return costDetails;
     }
 
+
+public Project update(Project project) {
+        return projectRepository.update(project);
+}
 
 }
