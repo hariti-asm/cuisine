@@ -20,7 +20,7 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public boolean createClient(Client client) {
+    public Client createClient(Client client) {
         String query = "INSERT INTO " + tableName + " (client_id, name, address, phone) VALUES (?, ?, ?, ?)";
         try (PreparedStatement pst = connection.prepareStatement(query)) {
             pst.setObject(1, client.getId());
@@ -31,10 +31,11 @@ public class ClientRepositoryImpl implements ClientRepository {
             int affectedRows = pst.executeUpdate();
             if (affectedRows == 0) {
                 System.out.println("Client isn't created");
-                return false;
+
             }
+            Client newClient2  = new Client(client.getId(), client.getName(), client.getAddress(), client.getPhone());
             System.out.println("Client created successfully");
-            return true;
+            return newClient2 ;
         } catch (SQLException e) {
             System.err.println("Error creating client: " + e.getMessage());
             throw new RuntimeException(e);

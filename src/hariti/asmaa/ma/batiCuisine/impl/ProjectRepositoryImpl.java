@@ -61,18 +61,23 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Project update(Project project) {
-        String sql = "UPDATE " + tableName + " SET nameproject = ?, surfacearea = ?, state = ?::projectstate WHERE project_id= ?";
+        String sql = "UPDATE " + tableName + " SET projectname = ?, profitmargin = ?, totalcost = ?, surfacearea = ?, projectstate = ?::projectstate WHERE id = ?";
+
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setString(1, project.getName());
-            stmt.setDouble(2, project.getSurfaceArea());
-            stmt.setString(3, project.getProjectState().name()); // Get the enum name as string
-            stmt.setObject(4, project.getId());
+            stmt.setObject(2, project.getMargin());
+            stmt.setObject(3, project.getTotalCost());
+            stmt.setDouble(4, project.getSurfaceArea());
+            stmt.setString(5, project.getProjectState().name());
+            stmt.setObject(6, project.getId());
+
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return project;
     }
+
 
     @Override
     public Project findById(UUID projectId) {
@@ -94,7 +99,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                         projectId,
                         name,
                         surfaceArea,
-                        vatRate,
                         totalCost,
                         margin,
                         projectState,

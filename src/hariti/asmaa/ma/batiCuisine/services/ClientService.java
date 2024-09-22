@@ -12,7 +12,7 @@ public class ClientService {
     public ClientService(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
     }
-    public boolean createClient(Optional<Client> client) {
+    public Client createClient(Client client) {
         return clientRepository.createClient(client);
     }
     public Optional<Client> updateClient(Client client) {

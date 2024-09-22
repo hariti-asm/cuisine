@@ -32,8 +32,8 @@ public class Main {
             ProjectService projectService = new ProjectService(projectRepository, laborService, materielService);
 
             LaborMenu laborMenu = new LaborMenu(laborService);
-            MaterielMenu materielMenu = new MaterielMenu(componentService);
-            projectMenu = new ProjectMenu(projectService, laborMenu, materielMenu , clientService);
+            MaterielMenu materielMenu = new MaterielMenu(materielService);
+            projectMenu = new ProjectMenu(projectService, laborMenu, materielMenu , clientService , componentService);
             clientMenu = new ClientMenu(clientService, projectMenu);
 
         } catch (SQLException e) {
