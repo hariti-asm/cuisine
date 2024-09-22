@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -88,8 +89,8 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             if (rs.next()) {
                 String name = rs.getString("nameproject");
                 double surfaceArea = rs.getDouble("surfacearea");
-                Double vatRate = rs.getObject("vat_rate", Double.class);
-                Double totalCost = rs.getObject("total_cost", Double.class);
+                Double vatRate = rs.getDouble("vat_rate");
+                Double totalCost = rs.getDouble("total_cost");
                 Double margin = rs.getObject("margin", Double.class);
                 ProjectState projectState = ProjectState.valueOf(rs.getString("project_state"));
                 Client client = null;
@@ -116,7 +117,37 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public List<Project> findAll() {
-        return List.of();
+        List<Project> projects = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + tableName;
+        try (PreparedStatement pst = connection.prepareStatement(sql)) {
+            ResultSet rs = pst.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("projectname");
+                double surfaceArea = rs.getDouble("surfacearea");
+                Double totalCost = rs.getDouble("totalcost");
+                Double margin = rs.getObject("profitmargin", Double.class);
+                ProjectState projectState = ProjectState.valueOf(rs.getString("projectstate"));
+                Client client = null;
+                List<Component> components = getComponentsForProject(UUID.fromString(rs.getString("id")));
+                Estimate estimate = null;
+                UUID id = UUID.fromString(rs.getString("id"));
+
+                Project project = new Project(id, name, surfaceArea, totalCost, margin, projectState,
+                        Optional.ofNullable(client), components, estimate);
+
+                projects.add(project);
+            }
+            return projects;
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private List<Component> getComponentsForProject(UUID projectId) {
+        List<Component> components = new ArrayList<>();
+        return components;
     }
 
     @Override

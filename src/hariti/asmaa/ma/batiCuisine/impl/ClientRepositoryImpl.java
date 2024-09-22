@@ -49,7 +49,7 @@ public class ClientRepositoryImpl implements ClientRepository {
             pst.setString(1, name);
             try (ResultSet rs = pst.executeQuery()) {
                 if (rs.next()) {
-                    UUID id = rs.getObject("client_id", UUID.class);
+                    UUID id = (UUID) rs.getObject("id");
                     String Name = rs.getString("name");
                     String address = rs.getString("address");
                     String phone = rs.getString("phone");
