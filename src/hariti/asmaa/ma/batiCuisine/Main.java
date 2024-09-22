@@ -15,8 +15,8 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static ClientMenu clientMenu;
-    private static ProjectMenu projectMenu;
+    private static final ClientMenu clientMenu;
+    private static final ProjectMenu projectMenu;
 
     static {
         try {
