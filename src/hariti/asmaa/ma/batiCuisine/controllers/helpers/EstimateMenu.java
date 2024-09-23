@@ -4,24 +4,26 @@ import hariti.asmaa.ma.batiCuisine.entities.Estimate;
 import hariti.asmaa.ma.batiCuisine.entities.Project;
 import hariti.asmaa.ma.batiCuisine.enums.EstimateStatus;
 import hariti.asmaa.ma.batiCuisine.impl.EstimateRepositoryImpl;
+import hariti.asmaa.ma.batiCuisine.services.EstimateService;
 import hariti.asmaa.ma.batiCuisine.services.ProjectService;
 
 import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.UUID;
 
 public class EstimateMenu {
 
-    private final EstimateRepositoryImpl estimateRepository;
+    private final EstimateService estimateService;
     private final ProjectService projectService;
     private final Scanner scanner;
 
-    public EstimateMenu(ProjectService projectService) throws SQLException {
+    public EstimateMenu(ProjectService projectService , EstimateService estimateService) throws SQLException {
         this.projectService = projectService;
-        this.estimateRepository = new EstimateRepositoryImpl();
+        this.estimateService = estimateService;
         this.scanner = new Scanner(System.in);
     }
 
@@ -74,7 +76,7 @@ public class EstimateMenu {
             System.out.print("Enter validity date (YYYY-MM-DD): ");
             LocalDate validityDate = LocalDate.parse(scanner.next());
 
-            System.out.print("Enter status (e.g., PENDING, APPROVED): ");
+            System.out.print("Enter status (e.g., ACCEPTED, REJECTED: ");
             String status = scanner.next().toUpperCase();
 
             System.out.print("Enter project ID: ");
@@ -85,9 +87,10 @@ public class EstimateMenu {
                 System.out.println("Project not found.");
                 return;
             }
+            UUID estimateId = UUID.randomUUID();
 
-            Estimate estimate = new Estimate( project,issueDate, validityDate, EstimateStatus.valueOf(status));
-            estimateRepository.save(estimate);
+            Estimate estimate = new Estimate(  estimateId, project, issueDate, validityDate, EstimateStatus.valueOf(status));
+            estimateService.save(estimate);
 
             System.out.println("Estimate added successfully.");
 
@@ -105,9 +108,9 @@ public class EstimateMenu {
             System.out.print("Enter estimate ID: ");
             UUID estimateId = UUID.fromString(scanner.next());
 
-            Estimate estimate = estimateRepository.findById(estimateId);
+            Optional<Estimate> estimate = estimateService.findById(estimateId);
 
-            if (estimate != null) {
+            if (estimate.isPresent()) {
                 System.out.println("Estimate Details:");
                 System.out.println(estimate);
             } else {
@@ -124,7 +127,7 @@ public class EstimateMenu {
             System.out.print("Enter estimate ID to delete: ");
             UUID estimateId = UUID.fromString(scanner.next());
 
-            estimateRepository.delete(estimateId);
+            estimateService.delete(estimateId);
             System.out.println("Estimate deleted successfully.");
 
         } catch (Exception e) {

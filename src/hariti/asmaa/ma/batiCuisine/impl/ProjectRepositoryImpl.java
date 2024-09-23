@@ -82,17 +82,16 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     @Override
     public Project findById(UUID projectId) {
-        String sql = "SELECT * FROM " + tableName + " WHERE project_id = ?";
+        String sql = "SELECT * FROM " + tableName + " WHERE id = ?";
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setObject(1, projectId);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                String name = rs.getString("nameproject");
+                String name = rs.getString("projectname");
                 double surfaceArea = rs.getDouble("surfacearea");
-                Double vatRate = rs.getDouble("vat_rate");
-                Double totalCost = rs.getDouble("total_cost");
-                Double margin = rs.getObject("margin", Double.class);
-                ProjectState projectState = ProjectState.valueOf(rs.getString("project_state"));
+                Double totalCost = rs.getDouble("totalcost");
+                Double margin = rs.getObject("profitmargin", Double.class);
+                ProjectState projectState = ProjectState.valueOf(rs.getString("projectstate"));
                 Client client = null;
                 List<Component> components = null;
                 Estimate estimate = null;

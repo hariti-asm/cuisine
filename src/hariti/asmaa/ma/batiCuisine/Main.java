@@ -1,11 +1,9 @@
 package hariti.asmaa.ma.batiCuisine;
 
-import hariti.asmaa.ma.batiCuisine.controllers.helpers.ClientMenu;
-import hariti.asmaa.ma.batiCuisine.controllers.helpers.ProjectMenu;
-import hariti.asmaa.ma.batiCuisine.controllers.helpers.LaborMenu;
-import hariti.asmaa.ma.batiCuisine.controllers.helpers.MaterielMenu;
+import hariti.asmaa.ma.batiCuisine.controllers.helpers.*;
 import hariti.asmaa.ma.batiCuisine.impl.*;
 import hariti.asmaa.ma.batiCuisine.repositories.ComponentRepository;
+import hariti.asmaa.ma.batiCuisine.repositories.EstimateRepository;
 import hariti.asmaa.ma.batiCuisine.repositories.LaborRepository;
 import hariti.asmaa.ma.batiCuisine.repositories.MaterielRepository;
 import hariti.asmaa.ma.batiCuisine.services.*;
@@ -17,6 +15,7 @@ public class Main {
 
     private static ClientMenu clientMenu;
     private static ProjectMenu projectMenu;
+    private static EstimateMenu estimateMenu;
 
     static {
         try {
@@ -33,15 +32,17 @@ public class Main {
             LaborService laborService = new LaborService(laborRepository);
             MaterielService materielService = new MaterielService(materielRepository);
             ProjectService projectService = new ProjectService(projectRepository, laborService, materielService);
+            EstimateRepository estimateRepository = new EstimateRepositoryImpl(projectService);
 
+            EstimateService estimateService = new EstimateService(estimateRepository);
             // Initialize menus
             LaborMenu laborMenu = new LaborMenu(laborService);
             MaterielMenu materielMenu = new MaterielMenu(materielService);
 
-            clientMenu = new ClientMenu(clientService); // Initialize clientMenu first
-            projectMenu = new ProjectMenu(projectService, laborMenu, materielMenu, clientService, componentService, clientMenu);
+            clientMenu = new ClientMenu(clientService);
+            estimateMenu = new EstimateMenu(projectService, estimateService);
+            projectMenu = new ProjectMenu(projectService, laborMenu, materielMenu, clientService, componentService, clientMenu, estimateMenu);
 
-            // Set the projectMenu in clientMenu after both are initialized
             clientMenu.setProjectMenu(projectMenu);
 
         } catch (SQLException e) {
