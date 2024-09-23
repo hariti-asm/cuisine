@@ -1,7 +1,7 @@
 package hariti.asmaa.ma.batiCuisine;
 
 import hariti.asmaa.ma.batiCuisine.controllers.helpers.*;
-import hariti.asmaa.ma.batiCuisine.impl.*;
+import hariti.asmaa.ma.batiCuisine.repositories.impl.*;
 import hariti.asmaa.ma.batiCuisine.repositories.ComponentRepository;
 import hariti.asmaa.ma.batiCuisine.repositories.EstimateRepository;
 import hariti.asmaa.ma.batiCuisine.repositories.LaborRepository;

@@ -1,8 +1,7 @@
-package hariti.asmaa.ma.batiCuisine.impl;
+package hariti.asmaa.ma.batiCuisine.repositories.impl;
 
 import hariti.asmaa.ma.batiCuisine.config.JdbcPostgresqlConnection;
 import hariti.asmaa.ma.batiCuisine.entities.Materiel;
-import hariti.asmaa.ma.batiCuisine.enums.ComponentType;
 import hariti.asmaa.ma.batiCuisine.repositories.MaterielRepository;
 
 import java.sql.Connection;
