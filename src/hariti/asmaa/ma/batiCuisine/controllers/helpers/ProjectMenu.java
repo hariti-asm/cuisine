@@ -17,14 +17,16 @@ public class ProjectMenu {
     private final LaborMenu laborMenu;
     private final MaterielMenu materialMenu;
     private final ClientMenu clientMenu;
+    private final EstimateMenu estimateMenu;
 
-    public ProjectMenu(ProjectService projectService, LaborMenu laborMenu, MaterielMenu materialMenu, ClientService clientService, ComponentService componentService, ClientMenu clientMenu) {
+    public ProjectMenu(ProjectService projectService, LaborMenu laborMenu, MaterielMenu materialMenu, ClientService clientService, ComponentService componentService, ClientMenu clientMenu, EstimateMenu estimateMenu) {
         this.projectService = projectService;
         this.laborMenu = laborMenu;
         this.materialMenu = materialMenu;
         this.clientService = clientService;
         this.componentService = componentService;
         this.clientMenu = clientMenu;
+        this.estimateMenu = estimateMenu;
     }
 
     public void showMenu() {
@@ -195,6 +197,8 @@ public class ProjectMenu {
         System.out.println("Surface Area: " + project.getSurfaceArea() + " m²");
         System.out.println("State: " + project.getProjectState());
         System.out.println("Client: " + project.getClient().get().getName());
+        estimateMenu.displayMenu();
+
     }
     public void calculateTotalCost() {
         Scanner scanner = new Scanner(System.in);
@@ -236,5 +240,4 @@ public class ProjectMenu {
             }
         }
     }
-
 }

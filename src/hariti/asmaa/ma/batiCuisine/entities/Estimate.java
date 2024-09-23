@@ -11,7 +11,8 @@ public class Estimate {
     private LocalDate validityDate;
     private EstimateStatus status;
     private Project project;
-    public Estimate( Project project , LocalDate issueDate, LocalDate validityDate, EstimateStatus status) {
+    public Estimate( UUID id, Project project , LocalDate issueDate, LocalDate validityDate, EstimateStatus status) {
+        this.id = id;
         this.issueDate = issueDate;
         this.validityDate = validityDate;
         this.status = status;
