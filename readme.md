@@ -77,6 +77,7 @@ The `Component` table is the parent class for both `Labor` and `Material`. It co
 | id       | UUID    | Unique identifier  |
 | name     | String  | component name     |
 | quantity | Integer | Component quantity |
+| AVT      | Double  | Added value tax    |
 | project_id    | UUID    | Associated project ID        |
 | component_type| String  | Component type (Labor/Material)|
 | cost          | Double  | Cost of the component        |
