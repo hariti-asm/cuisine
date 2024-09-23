@@ -1,11 +1,10 @@
-package hariti.asmaa.ma.batiCuisine.impl;
+package hariti.asmaa.ma.batiCuisine.repositories.impl;
 
 import hariti.asmaa.ma.batiCuisine.config.JdbcPostgresqlConnection;
 import hariti.asmaa.ma.batiCuisine.entities.Estimate;
 import hariti.asmaa.ma.batiCuisine.entities.Project;
 import hariti.asmaa.ma.batiCuisine.enums.EstimateStatus;
 import hariti.asmaa.ma.batiCuisine.repositories.EstimateRepository;
-import hariti.asmaa.ma.batiCuisine.repositories.ProjectRepository;
 import hariti.asmaa.ma.batiCuisine.services.ProjectService;
 
 import java.sql.*;
