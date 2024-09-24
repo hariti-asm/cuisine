@@ -38,7 +38,6 @@ The BatiCuisine Management System helps construction companies manage their work
 - **Java**: Core programming language.
 - **PostgreSQL**: Relational database used to store all project data.
 - **JDBC**: Java Database Connectivity to connect Java application with PostgreSQL.
-- **Maven**: For dependency management and project build.
 
 ## Database Structure
 
