@@ -51,9 +51,6 @@ public class LaborMenu {
         totalLaborCostBeforeTVA = laborService.calculateTotalLaborCostBeforeTVA(labors);
         totalLaborCostWithTVA = laborService.calculateTotalLaborCostWithTVA(labors, vatRate);
 
-        System.out.println("Total labor cost before TVA: " + String.format("%.2f", totalLaborCostBeforeTVA) + " €");
-        System.out.println("Total labor cost with TVA (" + vatRate + "%): " + String.format("%.2f", totalLaborCostWithTVA) + " €");
-
         laborService.saveAll(labors, vatRate);
 
         Map<String, Double> result = new HashMap<>();

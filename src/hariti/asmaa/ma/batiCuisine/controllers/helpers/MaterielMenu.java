@@ -66,8 +66,6 @@ public class MaterielMenu {
         totalMaterialCostBeforeTVA = calculateTotalMaterialCostBeforeTVA(materials);
         totalMaterialCostWithTVA = calculateTotalMaterialCostWithTVA(materials, vatRate);
 
-        System.out.println("Total material cost before TVA: " + String.format("%.2f", totalMaterialCostBeforeTVA) + " €");
-        System.out.println("Total material cost with TVA (" + vatRate + "%): " + String.format("%.2f", totalMaterialCostWithTVA) + " €");
 
         materielService.saveAll(materials, vatRate);
 

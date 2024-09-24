@@ -2,10 +2,7 @@ package hariti.asmaa.ma.batiCuisine;
 
 import hariti.asmaa.ma.batiCuisine.controllers.helpers.*;
 import hariti.asmaa.ma.batiCuisine.repositories.impl.*;
-import hariti.asmaa.ma.batiCuisine.repositories.ComponentRepository;
-import hariti.asmaa.ma.batiCuisine.repositories.EstimateRepository;
-import hariti.asmaa.ma.batiCuisine.repositories.LaborRepository;
-import hariti.asmaa.ma.batiCuisine.repositories.MaterielRepository;
+import hariti.asmaa.ma.batiCuisine.repositories.*;
 import hariti.asmaa.ma.batiCuisine.services.*;
 
 import java.sql.SQLException;
@@ -21,26 +18,27 @@ public class Main {
         try {
             // Initialize repositories
             ClientRepositoryImpl clientRepository = new ClientRepositoryImpl();
-            ProjectRepositoryImpl projectRepository = new ProjectRepositoryImpl();
             LaborRepository laborRepository = new LaborRepositoryImpl();
             MaterielRepository materielRepository = new MaterielRepositoryImpl();
             ComponentRepository componentRepository = new ComponentRepositoryImpl();
 
-            // Initialize services
             ClientService clientService = new ClientService(clientRepository);
             ComponentService componentService = new ComponentService(componentRepository);
             LaborService laborService = new LaborService(laborRepository);
             MaterielService materielService = new MaterielService(materielRepository);
-            ProjectService projectService = new ProjectService(projectRepository, laborService, materielService);
-            EstimateRepository estimateRepository = new EstimateRepositoryImpl(projectService);
 
-            EstimateService estimateService = new EstimateService(estimateRepository);
+            ProjectService projectService = new ProjectService(null, laborService, materielService);
+            ProjectRepositoryImpl projectRepository = new ProjectRepositoryImpl(projectService);
+
+            projectService.setProjectRepository(projectRepository);
+
+
+
             // Initialize menus
             LaborMenu laborMenu = new LaborMenu(laborService);
             MaterielMenu materielMenu = new MaterielMenu(materielService);
 
             clientMenu = new ClientMenu(clientService);
-            estimateMenu = new EstimateMenu(projectService, estimateService);
             projectMenu = new ProjectMenu(projectService, laborMenu, materielMenu, clientService, componentService, clientMenu, estimateMenu);
 
             clientMenu.setProjectMenu(projectMenu);

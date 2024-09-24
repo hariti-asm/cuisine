@@ -15,7 +15,7 @@ import java.util.UUID;
 public class EstimateRepositoryImpl  implements EstimateRepository {
     private final Connection connection = JdbcPostgresqlConnection.getInstance().getConnection();
     private final String tableName = "Estimate";
-private final ProjectService projectService ;
+private ProjectService projectService ;
     public EstimateRepositoryImpl(ProjectService projectService) throws SQLException {
         this.projectService = projectService;
     }
@@ -84,4 +84,7 @@ private final ProjectService projectService ;
         }
     }
 
+    public void setProjectService(ProjectService projectService) {
+        this.projectService = projectService;
+    }
 }
