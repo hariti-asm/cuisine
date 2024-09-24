@@ -21,28 +21,27 @@ public class Main {
             LaborRepository laborRepository = new LaborRepositoryImpl();
             MaterielRepository materielRepository = new MaterielRepositoryImpl();
             ComponentRepository componentRepository = new ComponentRepositoryImpl();
+            EstimateRepository estimateRepository = new EstimateRepositoryImpl(null);
 
+            // Initialize services
             ClientService clientService = new ClientService(clientRepository);
             ComponentService componentService = new ComponentService(componentRepository);
             LaborService laborService = new LaborService(laborRepository);
             MaterielService materielService = new MaterielService(materielRepository);
-
             ProjectService projectService = new ProjectService(null, laborService, materielService);
             ProjectRepositoryImpl projectRepository = new ProjectRepositoryImpl(projectService);
-
             projectService.setProjectRepository(projectRepository);
-
-
+            EstimateService estimateService = new EstimateService(estimateRepository);
 
             // Initialize menus
             LaborMenu laborMenu = new LaborMenu(laborService);
             MaterielMenu materielMenu = new MaterielMenu(materielService);
-
             clientMenu = new ClientMenu(clientService);
+            estimateMenu = new EstimateMenu(projectService, estimateService);
             projectMenu = new ProjectMenu(projectService, laborMenu, materielMenu, clientService, componentService, clientMenu, estimateMenu);
 
             clientMenu.setProjectMenu(projectMenu);
-
+            projectMenu.setEstimateMenu(estimateMenu);
         } catch (SQLException e) {
             System.err.println("Error initializing the repository: " + e.getMessage());
             throw new RuntimeException(e);

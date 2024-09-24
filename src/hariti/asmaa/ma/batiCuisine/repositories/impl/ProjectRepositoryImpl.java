@@ -37,7 +37,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             stmt.setObject(4, project.getTotalCost());
             stmt.setString(5, project.getProjectState().name());
 
-            if (project.getClient() != null) {
+            if (project.getClient().isPresent()) {
                 stmt.setObject(6, project.getClient().get().getId());
             } else {
                 stmt.setNull(6, java.sql.Types.OTHER);
@@ -102,8 +102,8 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                         totalCost,
                         margin,
                         projectState,
-                        Optional.ofNullable(client),
-                        components,
+                        Optional.empty(),
+                         components,
                         estimate
                 );
             }
@@ -125,8 +125,12 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 "    p.projectstate, " +
                 "    p.client_id, " +
                 "    p.estimate_id, " +
-                "    p.surfacearea " +
-                "FROM " + tableName + " p";
+                "    p.surfacearea, " +
+                "    c.name AS client_name, " +
+                "    c.phone AS client_phone, " +
+                "    c.address AS client_address " +
+                "FROM " + tableName + " p " +
+                "LEFT JOIN client c ON p.client_id = c.id";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
@@ -140,7 +144,14 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 UUID clientId = (UUID) rs.getObject("client_id");
                 UUID estimateId = (UUID) rs.getObject("estimate_id");
 
-                Client client = clientId != null ? new Client(clientId) : null;
+                String clientName = rs.getString("client_name");
+                String clientPhone = rs.getString("client_phone");
+                String clientAddress = rs.getString("client_address");
+
+                Client client = clientId != null
+                        ? new Client(clientId, clientName, clientAddress, clientPhone)
+                        : null;
+
                 Estimate estimate = estimateId != null ? new Estimate() : null;
 
                 List<Component> components = getComponentsForProject(id);
@@ -185,4 +196,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public void delete(UUID id) {
     }
+
+
 }
