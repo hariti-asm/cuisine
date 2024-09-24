@@ -16,6 +16,7 @@
       <change afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/repositories/impl/ProjectRepositoryImpl.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/services/LaborService.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/services/MaterielService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/controllers/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/controllers/ClientController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/entities/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/entities/Client.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/entities/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/entities/Component.java" afterDir="false" />
@@ -134,7 +135,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/hariti/asmaa/ma/batiCuisine/controllers/helpers/ProjectMenu.java</url>
-          <line>182</line>
+          <line>185</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
       </breakpoints>

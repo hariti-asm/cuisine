@@ -17,7 +17,7 @@ public class ProjectMenu {
     private final LaborMenu laborMenu;
     private final MaterielMenu materialMenu;
     private final ClientMenu clientMenu;
-    private final EstimateMenu estimateMenu;
+    private EstimateMenu estimateMenu;
 
     public ProjectMenu(ProjectService projectService, LaborMenu laborMenu, MaterielMenu materialMenu, ClientService clientService, ComponentService componentService, ClientMenu clientMenu, EstimateMenu estimateMenu) {
         this.projectService = projectService;
@@ -95,6 +95,9 @@ public class ProjectMenu {
             double materialVatRate = Double.parseDouble(scanner.nextLine());
             materialMenu.addMaterials(project, materialVatRate);
         }
+    }
+    public void setEstimateMenu(EstimateMenu estimateMenu) {
+        this.estimateMenu = estimateMenu;
     }
 
     public void addProject() {
