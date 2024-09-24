@@ -29,6 +29,10 @@ public class Project {
         this.estimate = estimate;
     }
 
+    public Project() {
+
+    }
+
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 

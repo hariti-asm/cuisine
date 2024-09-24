@@ -6,6 +6,7 @@ import hariti.asmaa.ma.batiCuisine.entities.Component;
 import hariti.asmaa.ma.batiCuisine.entities.Estimate;
 import hariti.asmaa.ma.batiCuisine.entities.Project;
 import hariti.asmaa.ma.batiCuisine.enums.ComponentType;
+import hariti.asmaa.ma.batiCuisine.enums.EstimateStatus;
 import hariti.asmaa.ma.batiCuisine.enums.ProjectState;
 import hariti.asmaa.ma.batiCuisine.repositories.ProjectRepository;
 import hariti.asmaa.ma.batiCuisine.services.ProjectService;
@@ -14,6 +15,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.*;
 
 public class ProjectRepositoryImpl implements ProjectRepository {
@@ -128,35 +130,47 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 "    p.surfacearea, " +
                 "    c.name AS client_name, " +
                 "    c.phone AS client_phone, " +
-                "    c.address AS client_address " +
-                "FROM " + tableName + " p " +
-                "LEFT JOIN client c ON p.client_id = c.id";
+                "    c.address AS client_address, " +
+                "    e.id AS estimate_id, " +
+                "    e.issue_date, " +
+                "    e.validitydate, " +
+                "    e.status AS estimate_status " +
+                "FROM " + tableName + " p, client c, estimate e " +
+                "WHERE p.client_id = c.id " +
+                "AND p.estimate_id = e.id";
 
         try (PreparedStatement pstmt = connection.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
             while (rs.next()) {
-                UUID id = UUID.fromString(rs.getString("id"));
-                String name = rs.getString("projectname");
+                UUID projectId = UUID.fromString(rs.getString("id"));
+                String projectName = rs.getString("projectname");
                 double surfaceArea = rs.getDouble("surfacearea");
                 Double totalCost = rs.getDouble("totalcost");
                 Double margin = rs.getObject("profitmargin", Double.class);
                 ProjectState projectState = ProjectState.valueOf(rs.getString("projectstate"));
                 UUID clientId = (UUID) rs.getObject("client_id");
-                UUID estimateId = (UUID) rs.getObject("estimate_id");
 
+                // Client details
                 String clientName = rs.getString("client_name");
                 String clientPhone = rs.getString("client_phone");
                 String clientAddress = rs.getString("client_address");
-
                 Client client = clientId != null
                         ? new Client(clientId, clientName, clientAddress, clientPhone)
                         : null;
 
-                Estimate estimate = estimateId != null ? new Estimate() : null;
+                // Estimate details
+                UUID estimateId = UUID.fromString(rs.getString("estimate_id"));
+                LocalDate issueDate = rs.getDate("issue_date").toLocalDate();
+                LocalDate validityDate = rs.getDate("validitydate").toLocalDate();
+                EstimateStatus estimateStatus = EstimateStatus.valueOf(rs.getString("estimate_status"));
 
-                List<Component> components = getComponentsForProject(id);
+                Project tempProject = new Project();
 
-                Project project = new Project(id, name, surfaceArea, totalCost, margin, projectState,
+                Estimate estimate = new Estimate(estimateId, tempProject, issueDate, validityDate, estimateStatus);
+
+                List<Component> components = getComponentsForProject(projectId);
+
+                Project project = new Project(projectId, projectName, surfaceArea, totalCost, margin, projectState,
                         Optional.ofNullable(client), components, estimate);
                 projects.add(project);
             }
@@ -175,12 +189,16 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             pst.setObject(1, projectId);
             try (ResultSet rs = pst.executeQuery()) {
                 while (rs.next()) {
+                    System.out.println("Fetching component for project ID: " + projectId);
+
                     components.add(extractComponentFromResultSet(rs, projectId));
                 }
             }
         } catch (SQLException e) {
             throw new RuntimeException("Error retrieving components for project: " + projectId, e);
         }
+
+        System.out.println("Components found for project ID " + projectId + ": " + components.size());
 
         return components;
     }

@@ -198,21 +198,19 @@ public class ProjectMenu {
         } else {
             System.out.println("No profit margin applied.");
         }
-
-        // Optionally, estimate details or other menus
         estimateMenu.displayMenu();
     }
     public void calculateTotalCost() {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Veuillez entrer l'ID du projet pour lequel calculer le coût: ");
+        System.out.print("please enter the id of the project to calculate its cost: ");
         String projectId = scanner.nextLine();
         Project project = projectService.findById(UUID.fromString(projectId));
         if (project == null) {
-            System.out.println("Projet non trouvé.");
+            System.out.println("Project not found. Please try again.");
             return;
         }
 
-        System.out.print("Veuillez entrer le taux de TVA (%): ");
+        System.out.print("please enter  TVA value (%): ");
         double tva = Double.parseDouble(scanner.nextLine());
 
         calculateTotalCost(project, tva);
