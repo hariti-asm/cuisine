@@ -5,10 +5,7 @@ import hariti.asmaa.ma.batiCuisine.entities.Project;
 import hariti.asmaa.ma.batiCuisine.enums.ComponentType;
 import hariti.asmaa.ma.batiCuisine.services.LaborService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class LaborMenu {
 
@@ -20,7 +17,7 @@ public class LaborMenu {
         this.scanner = new Scanner(System.in);
     }
 
-    public double addLabors(Project project, double vatRate) {
+    public Map<String, Double> addLabors(Project project, double vatRate) {
         List<Labor> labors = new ArrayList<>();
         double totalLaborCostBeforeTVA;
         double totalLaborCostWithTVA;
@@ -58,6 +55,10 @@ public class LaborMenu {
         System.out.println("Total labor cost with TVA (" + vatRate + "%): " + String.format("%.2f", totalLaborCostWithTVA) + " €");
 
         laborService.saveAll(labors, vatRate);
-       return totalLaborCostWithTVA;
-    }
-}
+
+        Map<String, Double> result = new HashMap<>();
+        result.put("TotalLaborCostBeforeTVA", totalLaborCostBeforeTVA);
+        result.put("TotalLaborCostWithTVA", totalLaborCostWithTVA);
+
+        return result;
+    }}

@@ -123,18 +123,29 @@ public class ProjectMenu {
         );
         projectService.save(project);
 
-        ArrayList<Materiel> materials = new ArrayList<>();
-        ArrayList<Labor> labors = new ArrayList<>();
-
         System.out.print("Enter VAT rate for materials (%): ");
         double materialVatRate = Double.parseDouble(scanner.nextLine());
 
         System.out.print("Enter VAT rate for labor (%): ");
         double laborVatRate = Double.parseDouble(scanner.nextLine());
 
-      double laborCost =  laborMenu.addLabors(project, laborVatRate) ;
-      double materialCost = materialMenu.addMaterials(project, materialVatRate);
-      double totalCost = laborCost + materialCost;
+        // Add labors and materials
+        Map<String, Double> laborCosts = laborMenu.addLabors(project, laborVatRate);
+        Map<String, Double> materialCosts = materialMenu.addMaterials(project, materialVatRate);
+
+        // Extract costs
+        double totalLaborCostBeforeTVA = laborCosts.get("TotalLaborCostBeforeTVA");
+        double totalLaborCostWithTVA = laborCosts.get("TotalLaborCostWithTVA");
+
+        double totalMaterialCostBeforeTVA = materialCosts.get("TotalMaterialCostBeforeTVA");
+        double totalMaterialCostWithTVA = materialCosts.get("TotalMaterialCostWithTVA");
+
+        // Calculate total costs
+        double totalCostBeforeTVA = totalLaborCostBeforeTVA + totalMaterialCostBeforeTVA;
+        double totalCostWithTVA = totalLaborCostWithTVA + totalMaterialCostWithTVA;
+
+        System.out.println("Total project cost before TVA: " + String.format("%.2f", totalCostBeforeTVA) + " €");
+        System.out.println("Total project cost with TVA: " + String.format("%.2f", totalCostWithTVA) + " €");
 
         System.out.print("Would you like to apply a profit margin to the project? (y/n): ");
         boolean applyMargin = scanner.nextLine().equalsIgnoreCase("y");
@@ -142,37 +153,16 @@ public class ProjectMenu {
         if (applyMargin) {
             System.out.print("Enter profit margin percentage (%): ");
             profitMargin = Double.parseDouble(scanner.nextLine());
-            project.setTotalCost(totalCost*profitMargin/100.0 + totalCost);
-
+            project.setTotalCost(totalCostWithTVA * (1 + profitMargin / 100.0)); // Applying profit margin to total with TVA
         }
+
         project.setMargin(profitMargin);
-       projectService.update(project);
+        projectService.update(project);
+
         System.out.println("Project successfully added!");
-        printProjectDetails(project);
+        printProjectDetails(project, totalCostBeforeTVA, totalCostWithTVA, profitMargin);
     }
 
-    private Project updateProjectCost(Project project, ArrayList<Materiel> materials, ArrayList<Labor> labors) {
-        HashMap<String, Double> costDetails = projectService.calculateTotalCost(project, materials, labors);
-
-        Double totalCostWithMargin = costDetails.get("Total Cost After Margin Profit");
-        if (totalCostWithMargin == null) {
-            System.out.println("Error: Unable to calculate total cost.");
-            return null;
-        }
-
-        project.setTotalCost(totalCostWithMargin);
-        project.getComponents().addAll(materials);
-        project.getComponents().addAll(labors);
-
-        Project updatedProject = projectService.update(project);
-        if (updatedProject != null) {
-            System.out.println("Project cost updated successfully.");
-            return updatedProject;
-        } else {
-            System.out.println("Error: Failed to update the project cost.");
-            return null;
-        }
-    }
     private Project selectProject() {
         System.out.print("Enter the project ID: ");
         String projectIdStr = scanner.nextLine();
@@ -189,16 +179,27 @@ public class ProjectMenu {
         }
     }
 
-    private void printProjectDetails(Project project) {
+    private void printProjectDetails(Project project, double totalCostBeforeTVA, double totalCostWithTVA, double profitMargin) {
         System.out.println("Project details:");
         System.out.println("ID: " + project.getId());
         System.out.println("Name: " + project.getName());
-        System.out.println("Total Cost: " + project.getTotalCost());
         System.out.println("Surface Area: " + project.getSurfaceArea() + " m²");
         System.out.println("State: " + project.getProjectState());
         System.out.println("Client: " + project.getClient().get().getName());
-        estimateMenu.displayMenu();
 
+        System.out.println("Total Cost before TVA: " + String.format("%.2f", totalCostBeforeTVA) + " €");
+
+        System.out.println("Total Cost with TVA: " + String.format("%.2f", totalCostWithTVA) + " €");
+
+        if (profitMargin > 0) {
+            double totalCostWithMargin = totalCostWithTVA * (1 + profitMargin / 100.0);
+            System.out.println("Total Cost with TVA and Profit Margin (" + profitMargin + "%): " + String.format("%.2f", totalCostWithMargin) + " €");
+        } else {
+            System.out.println("No profit margin applied.");
+        }
+
+        // Optionally, estimate details or other menus
+        estimateMenu.displayMenu();
     }
     public void calculateTotalCost() {
         Scanner scanner = new Scanner(System.in);
