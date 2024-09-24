@@ -186,9 +186,7 @@ public class ProjectMenu {
         System.out.println("Surface Area: " + project.getSurfaceArea() + " m²");
         System.out.println("State: " + project.getProjectState());
         System.out.println("Client: " + project.getClient().get().getName());
-
         System.out.println("Total Cost before TVA: " + String.format("%.2f", totalCostBeforeTVA) + " €");
-
         System.out.println("Total Cost with TVA: " + String.format("%.2f", totalCostWithTVA) + " €");
 
         if (profitMargin > 0) {

@@ -2,6 +2,7 @@ package hariti.asmaa.ma.batiCuisine.services;
 
 import hariti.asmaa.ma.batiCuisine.entities.*;
 import hariti.asmaa.ma.batiCuisine.repositories.ProjectRepository;
+import hariti.asmaa.ma.batiCuisine.repositories.impl.ProjectRepositoryImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import java.util.UUID;
 
 public class ProjectService {
 
-    private final ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
     private final LaborService laborService;
     private final MaterielService materielService;
 
@@ -91,4 +92,7 @@ public Project update(Project project) {
 public List<Project> findAll() {
         return projectRepository.findAll();
 }
+    public void setProjectRepository(ProjectRepositoryImpl projectRepository) {
+        this.projectRepository = projectRepository;
+    }
 }

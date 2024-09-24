@@ -19,6 +19,9 @@ public class Estimate {
         this.project = project;
     }
 
+    public Estimate() {
+
+    }
 
 
     public LocalDate getIssueDate() {
