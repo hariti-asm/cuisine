@@ -6,9 +6,7 @@ import hariti.asmaa.ma.batiCuisine.enums.ComponentType;
 import hariti.asmaa.ma.batiCuisine.services.ComponentService;
 import hariti.asmaa.ma.batiCuisine.services.MaterielService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class MaterielMenu {
     private final MaterielService materielService;
@@ -19,7 +17,7 @@ public class MaterielMenu {
         this.scanner = new Scanner(System.in);
     }
 
-    public double addMaterials(Project project, double vatRate) {
+    public Map<String, Double> addMaterials(Project project, double vatRate) {
         List<Materiel> materials = new ArrayList<>();
         double totalMaterialCostBeforeTVA;
         double totalMaterialCostWithTVA;
@@ -63,17 +61,21 @@ public class MaterielMenu {
 
             System.out.print("Do you want to add another material? (y/n): ");
         } while (scanner.nextLine().equalsIgnoreCase("y"));
-        System.out.print("Enter VAT rate of this material: ");
-        double tvaValue = scanner.nextDouble();
 
+        // Calculate the total costs before and with TVA
         totalMaterialCostBeforeTVA = calculateTotalMaterialCostBeforeTVA(materials);
         totalMaterialCostWithTVA = calculateTotalMaterialCostWithTVA(materials, vatRate);
 
         System.out.println("Total material cost before TVA: " + String.format("%.2f", totalMaterialCostBeforeTVA) + " €");
         System.out.println("Total material cost with TVA (" + vatRate + "%): " + String.format("%.2f", totalMaterialCostWithTVA) + " €");
 
-        materielService.saveAll(materials ,tvaValue);
-        return totalMaterialCostWithTVA;
+        materielService.saveAll(materials, vatRate);
+
+        Map<String, Double> result = new HashMap<>();
+        result.put("TotalMaterialCostBeforeTVA", totalMaterialCostBeforeTVA);
+        result.put("TotalMaterialCostWithTVA", totalMaterialCostWithTVA);
+
+        return result;
     }
 
     private double calculateTotalMaterialCostBeforeTVA(List<Materiel> materials) {
